@@ -1,10 +1,15 @@
-import {FC} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {FC, useState} from "react";
+import {StyleSheet, View} from "react-native";
+import {Cell} from "@/types";
+import {Grid} from "@/Game/Grid";
+import {generateGrid} from "@/Game/utils/generateGrid";
 
 export const Game: FC = () => {
+    const [cells, setCells] = useState<Cell[]>(generateGrid())
+
     return   (
     <View style={styles.container}>
-        <Text style={styles.text}>Game route</Text>
+        <Grid cells={cells} />
     </View>
     )
 }
@@ -17,7 +22,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#25292e',
         color: '#fff',
     },
-    text: {
-        color: '#fff',
-    }
 });
