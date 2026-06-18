@@ -1,30 +1,58 @@
-import {FC, RefObject, useEffect, useState} from "react";
+import {Dispatch, FC,  SetStateAction, useEffect, useState} from "react";
 import {Animated, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {Cell} from "@/types";
 
 type Props = {
-    value: string;
-    openedRef: RefObject<Cell[]>
+    openedCells: Cell[];
+    setOpenedCells: Dispatch<SetStateAction<Cell[]>>;
+    cell: Cell;
 }
-export const GridCell: FC<Props> = ({value, openedRef}) => {
-    const [open, setOpen] = useState(true)
-    const [disabled, setDisabled] = useState(true)
-    const opacity = open ? 1 : 0
+export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells}) => {
+    const {id, value} = cell;
+
+    const [open, setOpen] = useState(true);
+    const [disabled, setDisabled] = useState(true);
+
+    const opacity = open ? 1 : 0;
 
     const onClick = (): void => {
-        setOpen(true)
-    }
+        setOpen(true);
+
+        setOpenedCells((prev) => [...prev, {id, value}])
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setOpen(false);
             setDisabled(false);
-        }, 1000 * 3)
+        }, 1000 * 3);
 
         return () => {
             clearTimeout(timer)
+        };
+    }, []);
+
+    useEffect(() => {
+        if (openedCells.length < 2) return;
+
+        let timer = null;
+        const matched = openedCells.filter((item) => item.value === value);
+
+        setDisabled(true);
+
+        timer = setTimeout(() => {
+            if (matched.length < 2) {
+                setOpenedCells([]);
+                setOpen(false);
+            }
+            setDisabled(false);
+        }, 1000 * 2);
+
+        return () => {
+            if (!timer) return;
+            clearTimeout(timer);
         }
-    }, [])
+    }, [openedCells]);
 
     return (
         <TouchableOpacity style={styles.wrapper} onPressOut={onClick} disabled={disabled}>
@@ -34,8 +62,8 @@ export const GridCell: FC<Props> = ({value, openedRef}) => {
                 </Text>
             </Animated.View>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     wrapper: {

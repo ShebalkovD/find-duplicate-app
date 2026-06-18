@@ -16,7 +16,6 @@ export const generateGrid = (): Cell[] => {
             const newItem = {
                 id: resultArr.length + 1,
                 value: fruit,
-                done: false,
             }
 
             resultArr.push(newItem)
