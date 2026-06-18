@@ -4,3 +4,4 @@ export const PALETTE = {
 
 export const FRUITS = ['🍇', '🍌', '🍉', '🍒', '🍓', '🥝', '🍐', '🍊']
 export const GRID_SIZE = 16
+export const SCORE_BONUS = 100

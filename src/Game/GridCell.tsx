@@ -1,19 +1,24 @@
 import {Dispatch, FC,  SetStateAction, useEffect, useState} from "react";
 import {Animated, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {Cell} from "@/types";
+import {SCORE_BONUS} from "@/constants";
 
 type Props = {
     openedCells: Cell[];
     setOpenedCells: Dispatch<SetStateAction<Cell[]>>;
     cell: Cell;
+    setScore: Dispatch<SetStateAction<number>>;
 }
-export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells}) => {
+
+export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells, setScore}) => {
     const {id, value} = cell;
 
     const [open, setOpen] = useState(true);
+    const [done, setDone] = useState(false);
     const [disabled, setDisabled] = useState(true);
 
     const opacity = open ? 1 : 0;
+    const pressDisabled = disabled || done || open;
 
     const onClick = (): void => {
         setOpen(true);
@@ -33,29 +38,28 @@ export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells}) => {
     }, []);
 
     useEffect(() => {
+        if (done) return;
         if (openedCells.length < 2) return;
-
-        let timer = null;
-        const matched = openedCells.filter((item) => item.value === value);
 
         setDisabled(true);
 
-        timer = setTimeout(() => {
+        const matched = openedCells.filter((item) => item.value === value);
+
+        setTimeout(() => {
             if (matched.length < 2) {
                 setOpenedCells([]);
                 setOpen(false);
+            } else {
+                setDone(true)
+                setScore((prev) => prev + SCORE_BONUS)
             }
             setDisabled(false);
         }, 1000 * 2);
 
-        return () => {
-            if (!timer) return;
-            clearTimeout(timer);
-        }
     }, [openedCells]);
 
     return (
-        <TouchableOpacity style={styles.wrapper} onPressOut={onClick} disabled={disabled}>
+        <TouchableOpacity style={[styles.wrapper, {opacity: pressDisabled ? 0.8 : 1}]} onPressOut={onClick} disabled={pressDisabled}>
             <Animated.View style={[{opacity: opacity}]}>
                 <Text style={styles.text}>
                     {value}
