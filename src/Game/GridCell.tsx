@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         backgroundColor: '#2c3031',
         borderRadius: 8,
-        fontSize: 48,
+        fontSize: 28,
         display: 'flex',
         alignItems: "center",
         justifyContent: "center",

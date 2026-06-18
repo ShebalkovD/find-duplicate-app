@@ -16,7 +16,7 @@ export const Grid: FC<Props> = ({cells}) => {
 
 const styles = StyleSheet.create({
     gridContainer: {
-        width: '20%',
+        width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
