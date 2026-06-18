@@ -1,7 +1,6 @@
-import {Link, useNavigation} from "expo-router";
+import { useNavigation} from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
 import {LinkButton} from "@/UI/LinkButton";
-import {Button} from "@expo/ui";
 
 export default function Index() {
   const navigate = useNavigation()
@@ -10,7 +9,7 @@ export default function Index() {
       <Text style={styles.text}>Найди пару</Text>
 
       <LinkButton path={'/game'} label={'Играть'}/>
-      <LinkButton path={'/'} label={'Таблица лидеров'}/>
+      <LinkButton path={'/'} label={'Таблица очков'}/>
     </View>
   );
 }

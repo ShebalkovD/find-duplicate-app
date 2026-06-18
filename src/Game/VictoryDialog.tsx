@@ -1,6 +1,8 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import {FC, useState} from 'react';
 import {useRouter} from "expo-router";
+import {SCORE_TABLE_LOCAL_STORAGE_NAME} from "@/constants";
+import {saveScore} from "@/Game/utils/saveScore";
 
 type Props = {
     score: number;
@@ -10,8 +12,9 @@ export const VictoryDialog: FC<Props> = ({score}) => {
     const router = useRouter();
 
     const onPress = (): void => {
-        setVisible(false)
-        router.navigate('/')
+        saveScore(score);
+        setVisible(false);
+        router.navigate('/');
     }
 
     return (
