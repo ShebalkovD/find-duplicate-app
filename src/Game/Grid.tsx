@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useRef} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {Cell} from "@/types";
 import {GridCell} from "@/Game/GridCell";
@@ -7,9 +7,11 @@ type Props = {
     cells: Cell[]
 }
 export const Grid: FC<Props> = ({cells}) => {
+    const openedRef = useRef<Cell[]>([])
+
     return <View style={styles.gridContainer}>
         {cells.sort((a, b) => a.id - b.id).map((cell) => (
-          <GridCell key={cell.id} value={cell.value}/>
+          <GridCell key={cell.id} value={cell.value} openedRef={openedRef}/>
         ))}
     </View>
 }

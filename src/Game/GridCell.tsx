@@ -1,19 +1,33 @@
-import {FC, useState} from "react";
+import {FC, RefObject, useEffect, useState} from "react";
 import {Animated, StyleSheet, Text, TouchableOpacity} from "react-native";
+import {Cell} from "@/types";
 
 type Props = {
     value: string;
+    openedRef: RefObject<Cell[]>
 }
-export const GridCell: FC<Props> = ({value}) => {
+export const GridCell: FC<Props> = ({value, openedRef}) => {
     const [open, setOpen] = useState(true)
+    const [disabled, setDisabled] = useState(true)
     const opacity = open ? 1 : 0
 
     const onClick = (): void => {
-        setOpen((prev) => !prev)
+        setOpen(true)
     }
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setOpen(false);
+            setDisabled(false);
+        }, 1000 * 3)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [])
+
     return (
-        <TouchableOpacity style={styles.wrapper} onPressOut={onClick}>
+        <TouchableOpacity style={styles.wrapper} onPressOut={onClick} disabled={disabled}>
             <Animated.View style={[{opacity: opacity}]}>
                 <Text style={styles.text}>
                     {value}
