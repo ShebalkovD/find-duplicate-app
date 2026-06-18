@@ -56,12 +56,12 @@ export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells, setScore
                 setDoneCells((prev) => prev + 1);
             }
             setDisabled(false);
-        }, 1000 * 2);
+        }, 1000);
 
     }, [openedCells]);
 
     return (
-        <TouchableOpacity style={[styles.wrapper, {opacity: pressDisabled ? 0.8 : 1}]} onPressOut={onClick} disabled={pressDisabled}>
+        <TouchableOpacity style={styles.wrapper} onPressOut={onClick} disabled={pressDisabled}>
             <Animated.View style={[{opacity: opacity}]}>
                 <Text style={styles.text}>
                     {value}
