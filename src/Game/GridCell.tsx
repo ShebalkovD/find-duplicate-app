@@ -8,9 +8,10 @@ type Props = {
     setOpenedCells: Dispatch<SetStateAction<Cell[]>>;
     cell: Cell;
     setScore: Dispatch<SetStateAction<number>>;
+    setDoneCells: Dispatch<SetStateAction<number>>;
 }
 
-export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells, setScore}) => {
+export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells, setScore, setDoneCells}) => {
     const {id, value} = cell;
 
     const [open, setOpen] = useState(true);
@@ -50,8 +51,9 @@ export const GridCell: FC<Props> = ({cell, openedCells, setOpenedCells, setScore
                 setOpenedCells([]);
                 setOpen(false);
             } else {
-                setDone(true)
-                setScore((prev) => prev + SCORE_BONUS)
+                setDone(true);
+                setScore((prev) => prev + SCORE_BONUS);
+                setDoneCells((prev) => prev + 1);
             }
             setDisabled(false);
         }, 1000 * 2);
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '20%',
         aspectRatio: 1,
-        backgroundColor: '#2c3031',
+        backgroundColor: '#2c3336',
         borderRadius: 8,
 
         display: 'flex',

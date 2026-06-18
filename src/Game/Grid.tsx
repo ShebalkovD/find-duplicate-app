@@ -4,15 +4,23 @@ import {Cell} from "@/types";
 import {GridCell} from "@/Game/GridCell";
 
 type Props = {
-    cells: Cell[]
-    setScore: Dispatch<SetStateAction<number>>
+    cells: Cell[];
+    setScore: Dispatch<SetStateAction<number>>;
+    setDoneCells: Dispatch<SetStateAction<number>>;
 }
-export const Grid: FC<Props> = ({cells, setScore}) => {
+export const Grid: FC<Props> = ({cells, setScore, setDoneCells}) => {
     const [openedCells, setOpenedCells] = useState<Cell[]>([])
 
     return <View style={styles.gridContainer}>
         {cells.sort((a, b) => a.id - b.id).map((cell) => (
-          <GridCell key={cell.id} openedCells={openedCells} cell={cell} setOpenedCells={setOpenedCells} setScore={setScore}/>
+          <GridCell
+            key={cell.id}
+            openedCells={openedCells}
+            cell={cell}
+            setOpenedCells={setOpenedCells}
+            setScore={setScore}
+            setDoneCells={setDoneCells}
+          />
         ))}
     </View>
 }
